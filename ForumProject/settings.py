@@ -29,7 +29,7 @@ SECRET_KEY = secrets.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['aqueous-peak-89088.herokuapp.com']
+ALLOWED_HOSTS = ['https://forum-project-app.herokuapp.com/']
 
 # Application definition
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body_block %}
+{% load static %}
+
+
+    {% include 'partials/dashboard.html' with username=user.username %}
+
+    {% include 'partials/navigation.html' with username=user.username %}
+
+        
+    <div class="profile-details">
+        <h3>Profile detail:</h3>
+    
+        <p>E-mail adress: <span>{{ user.email }}</span></p>
+        <p>First name: <span>{{ user.first_name }}</span></p>
+        <p>Last name: <span> {{ user.last_name }}</span></p>
+        <p>Description: <span> {{ user.profile.description }} </span></p>
+        <p>City: <span> {{ user.profile.city }} </span></p>
+        <p>Website: <span>{{ user.profile.website }} </span></p>
+    </div>  
+
+{% endblock %}

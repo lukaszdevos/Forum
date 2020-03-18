@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block body_block %}
+
+
+
+<div class="posts">
+
+    {% if request.path == '/search/' %}
+        <h3>Results for: <span>{{ request.GET.search_value }}</span></h3> 
+    {% else %}
+
+        <div class="filter">
+            <form method="GET">
+                <input name="all_post" class="btn btn-primary" type="submit" value="All" />
+                <input name="today" class="btn btn-primary" type="submit" value="Today" />
+                <input name="week" class="btn btn-primary" type="submit" value="Week" />
+            </form> 
+        </div>
+    {% endif %}
+
+
+
+    {% if profile_name %}
+        <h2> {{ profile_name }} posts list:</h2>
+    {% endif %}
+
+    <ul class="post-list">
+        {% for post in object_list %}
+            <li class="post-item">
+                <div class="container">
+                    <div class="row">
+                        <div class="post-author col-sm-2">
+                            <img class="avatar_img" src="{{ post.created_by.profile.profile_img.url }}">
+                            <p>{{  post.created_by }}</p>
+                        </div>
+                        <div class="post-topic col-sm-8">
+                            <h3>
+                                <a href="{% url 'posts:post_detail' post.id %}">{{ post.topic }}</a>
+                            </h3>
+                            <small>{{ post.pub_date|date:'d-m-Y G:i:s' }}</small>
+                        </div>
+                        <div class="post-comment-stats col-sm-2">
+                            <i class="fa fa-comments-o fa-3x" aria-hidden="true"></i>
+                            <p>Comments: {{ post.comments.count }}</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    {% if request.path == '/post/' %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}

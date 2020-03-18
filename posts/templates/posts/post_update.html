@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block body_block %}
+
+<h2>Create new post</h2>
+
+{% if user.is_authenticated %}
+<form method="POST" action="{% url 'posts:post_update' %}" id="PostForm">
+
+
+{% csrf_token %}
+{{ form|crispy }}
+
+    <button type="submit" value="Post">Add post</button>
+
+</form>
+
+{% else %}
+<h4>You have to login</h4>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block body_block %}
+
+
+<h2>Edit post</h2>
+
+
+<form method="POST">
+    {% if user.is_authenticated %}
+
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <button type="submit">Save post</button>
+</form>
+
+{% else %}
+<h4>You have to login</h4>
+{% endif %}
+
+{% endblock %}

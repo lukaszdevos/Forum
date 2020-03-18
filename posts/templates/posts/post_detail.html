@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block body_block %}
+{% load static %}
+
+
+<!-- POST DETAIL -->
+<div class="posts">
+
+  <div class="single-post">
+
+    <div class=" card-post row">
+      <div class="post-content col-sm-9">
+        <div class="row">
+          <!-- AVATAR -->
+          <div class="col-sm-2">
+            <img class="avatar_img" src="{{ object.created_by.profile.profile_img.url }}">
+            <h6>{{ object.created_by }}</h6>
+          </div>
+          <!-- TITLE -->
+          <div class="col-sm-10">
+            <h5 class="">{{object.topic}}</h5>
+            <p>{{ object.text_area|linebreaksbr }}</p>
+          </div>
+        </div>
+
+
+        <div class="post-footer">
+          {% if object.created_by == user or user.is_staff == True %}
+          <div class="row">
+            <div class="col-sm-2">
+              <a class="btn btn-warning" href="{% url 'posts:post_update' object.id %}">Edit</a>
+            </div>
+            <div class="col-sm-2">
+              <a class="btn btn-danger" href="{% url 'posts:post_delete' object.id %}">Delete</a>
+            </div>
+            <div class="col-sm-8 text-muted">
+              {{ object.pub_date|date:'d-m-Y G:i:s' }}
+            </div>
+
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="history-posts col-sm-3">
+        <p class="text-muted">History update:</p>
+        <!-- <button class="show-history-post"></button> -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Show history update</button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">History update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {% for edited_post in edited_posts reversed %}
+                  <div class="card text-muted">
+                    <p>{{ edited_post.text_area_edited|linebreaksbr }}</p>
+                    <strong>{{ edited_post.history_date|date:'d-m-Y G:i:s' }}</strong>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- COMMENTS -->
+
+  <h6>Comments</h6>
+
+  {% for comment in comments_list %}
+  <div class="single-post">
+    <div class="row">
+      <div class="post-content col-sm-9">
+        <div class="row">
+          <!-- AVATAR -->
+          <div class="col-sm-2">
+            <img class="avatar_img" src="{{ object.created_by.profile.profile_img.url }}">
+            <h6>{{ comment.created_by }}</h6>
+          </div>
+          <div class="col-sm-10">
+            <p>{{ comment.comment_text|linebreaksbr }}</p>
+          </div>
+        </div>
+
+
+        <div class="post-footer">
+
+          {% if comment.created_by == user or user.is_staff == True %}
+          <textarea name="comment_content" form="comment_edit" class="hidden textarea form-control form-group"
+            id="comment-edit-{{forloop.counter}}">{{comment.comment_text}}</textarea>
+
+          <div class="form-buttons">
+            <a class="btn btn-warning btn-edit-comment" id="btn-edit-comment-{{forloop.counter}}">
+              Edit
+            </a>
+            <form method="POST" action="{% url 'posts:post_comment_delete' post_id=object.id comment_id=comment.id %}">
+              {% csrf_token %}
+              <button class="btn btn-danger">Delete</button>
+            </form>
+            <form name="comment_edit" id="comment_edit" method="POST"
+              action="{% url 'posts:post_comment_edit' post_id=object.id comment_id=comment.id %}">
+              {% csrf_token %}
+              <button class="btn btn-success btn-save-comment hidden" id="btn-save-comment-{{forloop.counter}}">
+                Save
+              </button>
+            </form>
+            <div class="text-muted">
+
+              {{ comment.comment_date|date:'d-m-Y G:i:s' }}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      </div>
+  </div>
+
+  
+
+  {% endfor %}
+
+  <form method="POST">
+    <div class="comments">
+      {% if user.is_authenticated %}
+        <div class="form-group shadow-textarea">
+          <label for="exampleFormControlTextarea6">Add comment</label>
+          <p>{{ user.username }}</p>
+          <img class="avatar_img" src="{{ user.profile.profile_img.url }}">
+          {% csrf_token %}
+          {{ form|crispy}}
+
+          <!-- <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write something here..."></textarea> -->
+        </div>
+        <button type="submit" class="btn btn-info">Add comment</button>
+      {% else %}
+        <p>
+          You are not logged in! <br />
+          Please <a href="{% url 'accounts:login' %}">log in</a> to add comments.
+        </p>
+      {% endif %}
+    </div>
+
+  </form>
+
+
+
+
+</div>
+
+
+{% endblock %}

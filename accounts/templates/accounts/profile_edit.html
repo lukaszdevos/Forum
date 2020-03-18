@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block body_block %}
+{% load static %}
+    {% include 'partials/dashboard.html' with username=user.username %}
+
+        
+        {% include 'partials/navigation.html' with username=user.username  %}
+
+        <div class="profile-details">   
+            <form method="POST" enctype="multipart/form-data" class="profile-edit-form">
+                {% csrf_token %}
+                <fieldset>
+                    {{update_form|crispy}}
+                    {{profile_form|crispy}}
+                    <button class="buttons-user btn btn-info" type="submit" name="_save" id="startBtn">
+                        <span>
+                            Save
+                        </span>
+                    </button>
+                </fieldset>
+            </form>
+        </div> 
+   
+{% endblock %}

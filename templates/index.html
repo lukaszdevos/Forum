@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block body_block %}
+
+<div class="profile-dashboard">
+    <h1>Hello, welcome on our forum.</h1>
+</div>
+
+<div class="news-list">
+    <div class="container">
+        <div class="row">
+        {% for article in articles %}
+            <div class="col-md-4">
+                <div class="single-blog-item">
+                    <div class="blog-thumnail">
+                        <a href="{{article.article_link}}">
+                            <img src="{{ article.article_image }}" alt="{{article.article_title}}"/>
+                        </a>
+                    </div>
+                    <div class="blog-content">
+                        <h4><a href="{{article.article_link}}">{{article.article_title}}</a></h4>
+                        <p>
+                            {%if article.article_description %}
+                                {{article.article_description|default:" "}}...
+                            {% else %}
+                                No article description...
+                            {% endif %}
+                        </p>
+                        <a href="{{article.article_link}}" class="btn btn-info">See more</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% if user %}
+
+    <div class="profile-dashboard">
+        <div class="profie_avatar">
+            <h2>{% if user.profile.profile_img %}  <img class="profile_img" src="{{ user.profile.profile_img.url }}">{% endif %}</h2> 
+        </div>
+        <h2>{{user.username}}</h2>
+        <p>Last login: {{user.last_login}}</p>
+        <p>Date joined: {{ user.date_joined }}</p>
+    </div>
+
+{% endif %}

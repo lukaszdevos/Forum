@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import django_heroku
-from my_secrets import secrets
-
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,12 +21,12 @@ TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secrets.SECRET_KEY
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['https://forum-project-app.herokuapp.com/']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -44,7 +41,6 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'news',
     'crispy_forms',
-    'django_secrets',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -98,11 +94,11 @@ DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': secrets.DBNAME,
-        'USER': secrets.DBUSER,
-        'PASSWORD': secrets.DBPASSWORD,
-        'HOST': secrets.DBHOST,
-        'PORT': secrets.DBPORT,
+        'NAME': os.environ['DBNAME'],
+        'USER': os.environ['DBUSER'],
+        'PASSWORD': os.environ['DBPASSWORD'],
+        'HOST': os.environ['DBHOST'],
+        'PORT': os.environ['DBPORT'],
     }
 }
 
@@ -163,12 +159,10 @@ LOGIN_URL = 'accounts/login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = secrets.EMAIL_HOST
-EMAIL_PORT = secrets.EMAIL_PORT
-EMAIL_HOST_USER = secrets.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = secrets.EMAIL_HOST_PASSWORD
-
-
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_PORT = os.environ['EMAIL_PORT']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 
 django_heroku.settings(locals())

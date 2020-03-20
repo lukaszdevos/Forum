@@ -26,7 +26,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['forum-project-app.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -165,4 +165,8 @@ EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 
+django_heroku.settings(locals())
+
+# Configure Django App for Heroku.
+import django_heroku
 django_heroku.settings(locals())

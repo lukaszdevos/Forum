@@ -3,14 +3,17 @@ from news.models import NewsModel
 from bs4 import BeautifulSoup
 import requests
 import urllib3
+from django.views.decorators.cache import never_cache
+
 
 
 
 
 
 # Create your views here.
-
+@never_cache
 def scrape_news(request):
+    
     urllib3.disable_warnings()
     session = requests.Session()
     
@@ -59,7 +62,7 @@ def scrape_news(request):
         'articles': articles
     }
 
-
+   
     return render (request, "index.html", context)
 
 

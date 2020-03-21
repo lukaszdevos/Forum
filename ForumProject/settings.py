@@ -21,12 +21,12 @@ TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'v!yv!+*z0h5$=+@amlxqa^_of+d5gpu8tl6k_xd_soqm)=wad*'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get('SECRET_KEY')
+ALLOWED_HOSTS = ['forum-project-app.herokuapp.com/']
 
 # Application definition
 
@@ -61,7 +61,8 @@ ROOT_URLCONF = 'ForumProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'staticfiles')],
+        'DIRS': [os.path.join(BASE_DIR,'staticfiles'),
+                 os.path.join(BASE_DIR,'TEMPLATES_DIR')]
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

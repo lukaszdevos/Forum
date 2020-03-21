@@ -61,8 +61,9 @@ ROOT_URLCONF = 'ForumProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'staticfiles'),
-                 os.path.join(BASE_DIR,'TEMPLATES_DIR')],
+        'DIRS': [TEMPLATES_DIR,
+                os.path.join(BASE_DIR,'staticfiles'),
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

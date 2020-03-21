@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from accounts import views
 from . import views
 from news.views import scrape_news
 

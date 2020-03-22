@@ -164,7 +164,7 @@ MEDIA_URL = 'http://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
 
 from botocore.client import Config
-
+import boto3
 
 s3 = boto3.resource(
     's3',

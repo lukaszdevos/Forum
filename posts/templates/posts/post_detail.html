@@ -34,12 +34,14 @@
             <div class="col-sm-2">
               <a class="btn btn-danger" href="{% url 'posts:post_delete' object.id %}">Delete</a>
             </div>
-            <div class="col-sm-8 text-muted">
-              {{ object.pub_date|date:'d-m-Y G:i:s' }}
-            </div>
+           
 
           </div>
           {% endif %}
+
+          <div class="col-sm-8 text-muted">
+            {{ object.pub_date|date:'d-m-Y G:i:s' }}
+          </div>
         </div>
       </div>
 
@@ -118,12 +120,14 @@
                 Save
               </button>
             </form>
-            <div class="text-muted">
-
-              {{ comment.comment_date|date:'d-m-Y G:i:s' }}
-            </div>
+            
           </div>
           {% endif %}
+          <div class="text-muted">
+
+            {{ comment.comment_date|date:'d-m-Y G:i:s' }}
+          </div>
+
         </div>
       </div>
       </div>

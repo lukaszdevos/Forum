@@ -163,6 +163,15 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = 'http://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
 
+from botocore.client import Config
+
+
+s3 = boto3.resource(
+    's3',
+    aws_access_key_id=os.environ.get('AWS_SECRET_ACCESS_KEY'),
+    aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'),
+    config=Config(signature_version='s3v4')
+)
 
 
 

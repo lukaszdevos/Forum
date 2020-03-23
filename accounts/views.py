@@ -81,7 +81,7 @@ def change_password(request):
 
 class PasswordReset(PasswordResetView):
     model = User
-    template_name="accounts/password_reset_form.html"
+    template_name= "accounts/password_reset_form.html"
     form_class = PasswordResetForm
     email_template_name = "accounts/password_reset_email.html"
     token_generator = default_token_generator

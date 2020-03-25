@@ -31,7 +31,7 @@ Jako główna strona, pokazuje najnowsze newsy z Google Trends.
 - [x] Przechowywanie plików zdjęciowych w AWS
 
 
-# Technologie użyte w projekcie
+# Technologie użyte w projekcie 🔨
 - Python 3.7.5
 - Django 3.0
 - PostgresSQL

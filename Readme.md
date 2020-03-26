@@ -8,8 +8,6 @@ Live: https://forum-project-app.herokuapp.com/
 
 ---
 
-## 🇬🇧🇺🇸🇬🇧🇺🇸🇬🇧🇺🇸
-
 ## Description ✍️
 
 Forum application written in Django, which allows you to create a new account, add posts and comments.
@@ -62,8 +60,6 @@ The homepage shows you the latest news from Google Trends.
 - [ ] Implementing more JavaScript features
 
 ---
-
-## 🇵🇱🇵🇱🇵🇱🇵🇱🇵🇱🇵🇱
 
 ## Opis ✍️
 

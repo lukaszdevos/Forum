@@ -25,7 +25,7 @@ def scrape_news(request):
 
     articles = []
     i=1
-    while i < 13:
+    while i < 10:
         
         
         article = news[i]

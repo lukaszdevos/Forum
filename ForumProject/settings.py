@@ -10,12 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import sys
 import os
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 # Quick-start development settings - unsuitable for production
 # See https:// docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -26,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['forum-project-app.herokuapp.com/']
+ALLOWED_HOSTS = ['forum-project-app.herokuapp.com/','127.0.0.1','localhost']
 
 # Application definition
 
@@ -63,8 +64,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMPLATES_DIR,
-                os.path.join(BASE_DIR,'staticfiles'),
-                 ],
+                os.path.join(BASE_DIR, 'staticfiles'),
+                ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,26 +85,28 @@ WSGI_APPLICATION = 'ForumProject.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
-
-
-DATABASES = {
-    
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DBNAME'),
-        'USER': os.environ.get('DBUSER'),
-        'PASSWORD': os.environ.get('DBPASSWORD'),
-        'HOST': os.environ.get('DBHOST'),
-        'PORT': os.environ.get('DBPORT'),
+if DEBUG:
+    DATABASES = {
+        'default':{
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DBNAME'),
+            'USER': os.environ.get('DBUSER'),
+            'PASSWORD': os.environ.get('DBPASSWORD'),
+            'HOST': os.environ.get('DBHOST'),
+            'PORT': os.environ.get('DBPORT'),
+        },
+    }
+    django_heroku.settings(locals())
+
+
 
 
 # Password validation
@@ -159,7 +162,6 @@ AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
 
 AWS_LOCATION = 'media'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = 'http://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
 
 AWS_S3_REGION_NAME = "eu-central-1"
@@ -167,14 +169,12 @@ AWS_S3_REGION_NAME = "eu-central-1"
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 
-
-
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'accounts/login'
 
 
-#email config
+# email config
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -183,8 +183,3 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_TLS = True
-
-
-
-django_heroku.settings(locals())
-

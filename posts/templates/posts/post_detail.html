@@ -143,7 +143,9 @@
         <div class="form-group shadow-textarea">
           <label for="exampleFormControlTextarea6">Add comment</label>
           <p>{{ user.username }}</p>
-          <img class="avatar_img" src="{{ user.profile.profile_img.url }}">
+          {% if user.profile.profile_img %}
+            <img class="avatar_img" src="{{ user.profile.profile_img }}">
+          {% endif %}
           {% csrf_token %}
           {{ form|crispy}}
 

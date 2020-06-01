@@ -30,7 +30,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="post-author col-sm-2">
-                            <img class="avatar_img" src="{{ post.created_by.profile.profile_img.url }}">
+                            {% if post.created_by.profile.profile_img.url %}
+                                <img class="avatar_img" src="{{ post.created_by.profile.profile_img.url }}">
+                            {% endif %}
                             <p>{{  post.created_by }}</p>
                         </div>
                         <div class="post-topic col-sm-8">

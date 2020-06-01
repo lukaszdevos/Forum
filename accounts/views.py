@@ -17,25 +17,28 @@ from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, Set
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView,PasswordResetDoneView, PasswordResetCompleteView
 from django.contrib.auth.tokens import default_token_generator
 
-
-
-
 class SignUp(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy("accounts:login")
     template_name = "accounts/signup.html"
 
-
 # DASHBOARD
 
 def profile_details_view(request,username):
-    user_name = User.objects.get(username=username)
-    context = {'profile':User.objects.get(username=username)}
+    if request.user.is_anonymous:
+        return redirect("accounts:login")
 
-    return render(request, 'accounts/profile.html', context)
+    elif request.user.username == username:
+        user_name = User.objects.get(username=username)
+        context = {'profile':user_name}
+        return render(request, 'accounts/profile.html', context)
+
+    return redirect('/profile/' + request.user.username)
 
 
 def profile_edit_view(request):
+    if request.user.is_anonymous:
+        return redirect("accounts:login")
 
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -44,6 +47,7 @@ def profile_edit_view(request):
         if profile_form.is_valid() and update_form.is_valid():
             if not request.user.profile.profile_img:
                 request.user.profile.profile_img = 'default.jpg'
+
             profile_form.save()
             update_form.save()
 
@@ -62,22 +66,22 @@ def profile_edit_view(request):
 def change_password(request):
     template_name = 'accounts/profile_change_password.html'
 
-    if request.user is not None:
+    if request.user.is_anonymous == True:
+        return redirect("accounts:login")
 
-        if request.method == 'POST':
-            form = PasswordChangeForm(request.user, request.POST)
-            if form.is_valid():
-                form.save()
-                update_session_auth_hash(request, form.user)
-                return redirect('/profile/' + request.user.username)
-        else:
-            form = PasswordChangeForm(request.user)
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('/profile/' + request.user.username)
+    else:
+        form = PasswordChangeForm(request.user)
 
-        context = {'form':form}
+    context = {'form':form}
 
-        return render(request, template_name, context)
+    return render(request, template_name, context)
 
-    return render(request,template_name)
 
 class PasswordReset(PasswordResetView):
     model = User
